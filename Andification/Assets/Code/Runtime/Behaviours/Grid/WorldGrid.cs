@@ -9,7 +9,9 @@ namespace Andification.Runtime.GridSystem
         public Vector2Int worldSize = Vector2Int.zero;
         public Vector2 cellSize = Vector2.one;
         [Space]
+        [Header("Debug Stuff")]
         public bool drawGrid = true;
+        public Color gridColor = Color.cyan;
 
         public bool Initialized
         {
@@ -63,7 +65,7 @@ namespace Andification.Runtime.GridSystem
         // TODO => transform.position is not applied correctly
         private void DrawEditorGrid()
         {
-            Gizmos.color = Color.cyan;
+            Gizmos.color = gridColor;
 
             // Horizontal Lines
             for (int i = 0; i < worldSize.y + 1; i++)
@@ -82,6 +84,8 @@ namespace Andification.Runtime.GridSystem
 
                 Gizmos.DrawLine(startPos, endPos);
             }
+
+            Gizmos.color = Color.white;
         }
 
         private void ClampProperties()
