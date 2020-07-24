@@ -6,7 +6,14 @@ namespace Andification.Runtime.GridSystem
 {
     public class WorldGrid : MonoBehaviour
     {
+        /// <summary>
+        /// Size of the grid in cells
+        /// </summary>
         [SerializeField] private Vector2Int worldSize = Vector2Int.zero;
+
+        /// <summary>
+        /// The size of a single cell in unity units
+        /// </summary>
         [SerializeField] private Vector2 cellSize = Vector2.one;
 
         [Space]
@@ -15,6 +22,9 @@ namespace Andification.Runtime.GridSystem
         [SerializeField] private bool drawGrid = true;
         [SerializeField] private Color gridColor = Color.cyan;
 
+        /// <summary>
+        /// Will be true as soon as the map was initialized
+        /// </summary>
         public bool Initialized
         {
             get;
@@ -125,6 +135,11 @@ namespace Andification.Runtime.GridSystem
             Initialized = true;
         }
 
+        /// <summary>
+        /// Returns the cell at the given cell position or null if the position was out of range
+        /// </summary>
+        /// <param name="cellPosition">The position of the cell - only positive values allowed!</param>
+        /// <returns>The cell at the given position or null</returns>
         public WorldGridCell GetCellAt(Vector2Int cellPosition)
         {
             if (cellPosition.x < 0 || cellPosition.x >= worldSize.x)
@@ -136,11 +151,21 @@ namespace Andification.Runtime.GridSystem
             return CellMap2D[cellPosition.x, cellPosition.y];
         }
 
+        /// <summary>
+        /// Calculates the world position for the given cell position
+        /// </summary>
+        /// <param name="cellPosition"></param>
+        /// <returns></returns>
         public Vector2 CellToWorld(Vector2Int cellPosition)
         {
             return transform.position + new Vector3((cellPosition.x * cellSize.x) + cellSize.x / 2, (cellPosition.y * cellSize.y) + cellSize.y / 2);
         }
 
+        /// <summary>
+        /// Calculates the cell position for the given world position. Also negative cell position values will be returned!
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
         public Vector2Int WorldToCell(Vector2 worldPosition)
         {
             Vector2Int a = new Vector2Int(
