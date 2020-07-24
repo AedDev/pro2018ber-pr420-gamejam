@@ -15,9 +15,10 @@ MonoBehaviour:
   Name: Turret
   Invincible: 1
   MaxHealth: 100
-  Projectile: {fileID: 0}
+  Projectile: {fileID: 11400000, guid: d1a35717f13c43041b0809edb5834924, type: 2}
   AttackRange: 4
-  AttackSpeed: 1
+  AttackSpeed: 0.1
   AttackCount: 6
   AttackReloadTime: 2.5
   BuildCost: 20
+  Prefab: {fileID: 2252201433708258971, guid: 6ea18c946298f754393ca72fd28083d1, type: 3}

@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Rocked
   m_EditorClassIdentifier: 
   ProjectileSprite: {fileID: 0}
+  HitDistance: 0.2
+  MaxAliveTime: 10
   InstantTravel: 0
-  TravelSpeed: 0
+  TravelSpeed: 3
   InstantTurn: 0
-  TurnSpeed: 0
-  HitDistance: 0
-  MaxAliveTime: 0
+  TurnSpeed: 90
   Damage: 0
-  AOEDamage: 0
+  AOEDamage: 1
   AOEOnTimeOut: 0
   AOERange: 0
   AOEHasFalloff: 0

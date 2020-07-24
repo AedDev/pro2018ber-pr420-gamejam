@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Walker
   Invincible: 0
   MaxHealth: 100
+  Prefab: {fileID: 0}
   MoveSpeed: 2
   KillReward: 8
   NexusDamage: 10

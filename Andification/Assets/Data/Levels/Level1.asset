@@ -9,334 +9,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3820760670f96e54fa5f630c1cf14f9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 04aa0d8159de69d4caa0a91bac4ada74, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  worldSize: {x: 9, y: 9}
-  cellSize: {x: 1, y: 1}
-  _cellData:
-  - cellPosition: {x: 0, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 0, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 1, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 2, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 3, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 4, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 5, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 6, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 7, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 0}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 1}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 2}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 3}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 4}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 5}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 6}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 7}
-    walkable: 1
-    buildable: 1
-    content: 0
-  - cellPosition: {x: 8, y: 8}
-    walkable: 1
-    buildable: 1
-    content: 0
-  initialized: 1
+  name: Level 1
+  gridData: {fileID: 11400000, guid: 07ac3db17de143b46a1cf5f7939aa26f, type: 2}
+  towerPositions:
+  - {x: 2, y: 2}
+  - {x: 2, y: 6}
+  - {x: 4, y: 3}
+  - {x: 5, y: 1}
+  - {x: 5, y: 5}
+  - {x: 7, y: 2}
+  - {x: 7, y: 5}
+  - {x: 7, y: 7}
+  waves:
+  - spawners:
+    - enemys:
+      - enemy: {fileID: 11400000, guid: eefe495d4d04edd4ca29986fbce23bc4, type: 2}
+        count: 5
+  - spawners:
+    - enemys:
+      - enemy: {fileID: 11400000, guid: eefe495d4d04edd4ca29986fbce23bc4, type: 2}
+        count: 10
+      - enemy: {fileID: 11400000, guid: b095ed4c9144ca346a986a505ed83125, type: 2}
+        count: 3
+  - spawners:
+    - enemys:
+      - enemy: {fileID: 11400000, guid: eefe495d4d04edd4ca29986fbce23bc4, type: 2}
+        count: 15
+      - enemy: {fileID: 11400000, guid: b095ed4c9144ca346a986a505ed83125, type: 2}
+        count: 6
+  - spawners:
+    - enemys:
+      - enemy: {fileID: 11400000, guid: eefe495d4d04edd4ca29986fbce23bc4, type: 2}
+        count: 20
+      - enemy: {fileID: 11400000, guid: b095ed4c9144ca346a986a505ed83125, type: 2}
+        count: 6

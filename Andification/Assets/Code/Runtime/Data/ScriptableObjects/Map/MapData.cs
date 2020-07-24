@@ -1,15 +1,13 @@
 using UnityEngine;
 using Andification.Runtime.GridSystem;
 
-namespace Andification.Runtime.Data.ScriptableObjects.Map
-{
-    [System.Serializable]
-    public class MapData : ScriptableObject
-    {
-        public new string name;
+namespace Andification.Runtime.Data.ScriptableObjects.Map {
+	[System.Serializable]
+	public class MapData : AndificationScriptableObject {
+		public new string name;
 
-        public GridData gridData;
-        public Vector2[] towerPositions;
-        public WaveData[] waves;
-    }
+		public GridData gridData;
+		public Vector2[] towerPositions;
+		public WaveData[] waves;
+	}
 }

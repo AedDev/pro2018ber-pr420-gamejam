@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Bullet
   m_EditorClassIdentifier: 
   ProjectileSprite: {fileID: 0}
+  HitDistance: 0.2
+  MaxAliveTime: 10
   InstantTravel: 1
   TravelSpeed: 0
   InstantTurn: 1
   TurnSpeed: 0
-  HitDistance: 0
-  MaxAliveTime: 0
-  Damage: 0
+  Damage: 19
   AOEDamage: 0
   AOEOnTimeOut: 0
   AOERange: 0
