@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3820760670f96e54fa5f630c1cf14f9a, type: 3}
-  m_Name: GridData-e308240a-fa23-4157-b1a8-3782da951434
+  m_Name: Level1
   m_EditorClassIdentifier: 
   worldSize: {x: 9, y: 9}
   cellSize: {x: 1, y: 1}
