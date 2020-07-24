@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Andification.Runtime.Extensions;
+using System;
 
 namespace Andification.Runtime.GridSystem
 {
@@ -28,6 +29,8 @@ namespace Andification.Runtime.GridSystem
         {
             get => _cellMap?.ToTwoDimensional(worldSize.x, worldSize.y);
         }
+
+        public event EventHandler<WorldGridCell> cellChanged;
 
         private void OnDrawGizmos()
         {
@@ -115,7 +118,7 @@ namespace Andification.Runtime.GridSystem
             // Initialize cells
             for (int x = 0; x < cellMap2D.GetLength(0); x++)
                 for (int y = 0; y < cellMap2D.GetLength(1); y++)
-                    cellMap2D[x, y] = new WorldGridCell(new Vector2Int(x, y));
+                    cellMap2D[x, y] = new WorldGridCell(this, new Vector2Int(x, y), OnCellChanged);
 
             _cellMap = cellMap2D.ToOneDimensional();
 
@@ -148,6 +151,11 @@ namespace Andification.Runtime.GridSystem
             //a.Clamp(Vector2Int.zero, worldSize);
             
             return a;
+        }
+
+        private void OnCellChanged(WorldGridCell cell)
+        {
+            cellChanged?.Invoke(cell, cell);
         }
     }
 }
