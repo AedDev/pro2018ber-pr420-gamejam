@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TheBigShaderAccessor : MonoBehaviour
 {
+#pragma warning disable CS0414
+
 	[SerializeField] private bool _testMode = true;
 
 	Material _material;
@@ -48,4 +50,16 @@ public class TheBigShaderAccessor : MonoBehaviour
 		_displacement = (int)(Mathf.Sin(Time.time) * 64f);
 		SetDisplacement(_displacement);
 	}
+
+
+	private IEnumerator BloomFlash(float intensity, float duration = 4f)
+	{
+		for (float ticker = 0; ticker <= duration; ticker += Time.fixedDeltaTime)
+		{
+			//_currentBloom += (ticker < duration / 2f ? 1f : -1f) * intensity * (Time.fixedDeltaTime / duration);
+			yield return new WaitForFixedUpdate();
+		}
+	}
+
+	//public void ShortBloomFlash() => StartCoroutine(BloomFlash(_maxBloom, 0.2f));
 }

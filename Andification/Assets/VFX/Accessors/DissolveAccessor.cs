@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DissolveAccessor : MonoBehaviour
 {
+#pragma warning disable CS0414
+
 	Material _material;
 
 	float _fade = 1f;

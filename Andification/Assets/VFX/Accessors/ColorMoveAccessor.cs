@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ColorMoveAccessor : MonoBehaviour
 {
+#pragma warning disable CS0414
+
 	Material _material;
 
 	int _displacement = 1;
