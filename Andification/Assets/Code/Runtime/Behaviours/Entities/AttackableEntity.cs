@@ -43,7 +43,7 @@ namespace Andification.Runtime.Behaviours.Entities
 			TearDown();
 		}
 
-		private void TearDown()
+		protected void TearDown()
 		{
 			OnTearDown();
 			Destroy(gameObject);
