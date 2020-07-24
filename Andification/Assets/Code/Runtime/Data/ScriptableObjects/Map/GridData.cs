@@ -72,8 +72,20 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
             this._cellData = new WorldGridCell[worldSize.x * worldSize.y];
 
             for (int _x = 0; _x < worldSize.x; _x++)
+            {
                 for (int _y = 0; _y < worldSize.y; _y++)
-                    this._cellData[_y * worldSize.x + _x] = new WorldGridCell(this, _x, _y, OnCellChanged);
+                {
+                    int index = _y * worldSize.x + _x;
+
+                    this._cellData[index] = new WorldGridCell(this, _x, _y, OnCellChanged)
+                    {
+                        Buildable = (this._cellData[index]?.Buildable).GetValueOrDefault(true),
+                        Walkable = (this._cellData[index]?.Walkable).GetValueOrDefault(true),
+                        ContentType = (this._cellData[index]?.ContentType).GetValueOrDefault(GridContentType.Nothing),
+                        Content = this._cellData[index]?.Content
+                    };
+                }
+            }
 
             Debug.Log("GridData initialized!");
 
