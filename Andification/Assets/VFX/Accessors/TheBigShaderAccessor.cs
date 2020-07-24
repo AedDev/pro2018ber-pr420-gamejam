@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TheBigShaderAccessor : MonoBehaviour
 {
+	[SerializeField] private bool _testMode = true;
+
 	Material _material;
 
 	#region Dissolve
@@ -24,11 +26,8 @@ public class TheBigShaderAccessor : MonoBehaviour
 
 	void Update()
 	{
-		_fade = Mathf.Abs(Mathf.Sin(Time.time));
-		SetFade(_fade);
-
-		_displacement = (int)(Mathf.Sin(Time.time) * 64f);
-		SetDisplacement(_displacement);
+		if (_testMode)
+			TestMode();
 	}
 
 	#region Dissolve
@@ -40,4 +39,13 @@ public class TheBigShaderAccessor : MonoBehaviour
 	#region ColorMove
 	public void SetDisplacement(int displacement) => _material.SetInt("_Displacement", displacement);
 	#endregion
+
+	private void TestMode()
+	{
+		_fade = Mathf.Abs(Mathf.Sin(Time.time));
+		SetFade(_fade);
+
+		_displacement = (int)(Mathf.Sin(Time.time) * 64f);
+		SetDisplacement(_displacement);
+	}
 }
