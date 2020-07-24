@@ -13,7 +13,7 @@ namespace Andification.Runtime.GridSystem
         [SerializeField] private bool walkable = true;
         [SerializeField] private bool buildable = true;
         [SerializeField] private GridContentType contentType = GridContentType.Nothing;
-        [NonSerialized] private GameObject content;
+        [NonSerialized] private MonoBehaviour content;
 
         [NonSerialized] private Action<WorldGridCell> cellChangedHandler;
 
@@ -74,7 +74,7 @@ namespace Andification.Runtime.GridSystem
             }
         }
 
-        public GameObject Content
+        public MonoBehaviour Content
         {
             get => content;
             set
