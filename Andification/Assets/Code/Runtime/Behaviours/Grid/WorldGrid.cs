@@ -63,7 +63,12 @@ namespace Andification.Runtime.GridSystem
 
                 if (cell != null)
                 {
-                    GUI.Label(new Rect(cam.WorldToScreenPoint(wPos), new Vector2(cellSize.x, cellSize.y)), cell.cellPosition.ToString());
+                    GUI.Label(
+                        new Rect(
+                            cam.WorldToScreenPointInvertedY(CellToWorld(cell.cellPosition) - (cellSize / 2) + new Vector2(0, cellSize.y)),
+                            new Vector2(100, 100)
+                        ), cell.cellPosition.ToString()
+                    );
                 }
             }
         }
