@@ -7,9 +7,10 @@ namespace Andification.Runtime.GridSystem
     {
         [SerializeField] private Vector2Int worldSize = Vector2Int.zero;
         [SerializeField] private Vector2 cellSize = Vector2.one;
-        
+
         [Space]
         [Header("Debug Stuff")]
+        [SerializeField] private bool debugMode = true;
         [SerializeField] private bool drawGrid = true;
         [SerializeField] private Color gridColor = Color.cyan;
 
@@ -45,22 +46,20 @@ namespace Andification.Runtime.GridSystem
             ClampProperties();
         }
 
-        private void Update()
-        {
-            
-        }
-
         private void OnGUI()
         {
-            var mPos = Input.mousePosition;
-            var cam = Camera.main;
-            var camWPos = cam.ScreenToWorldPoint(mPos);
-            var cPos = WorldToCell(camWPos);
-            var wPos = CellToWorld(cPos);
+            if (debugMode)
+            {
+                var mPos = Input.mousePosition;
+                var cam = Camera.main;
+                var camWPos = cam.ScreenToWorldPoint(mPos);
+                var cPos = WorldToCell(camWPos);
+                var wPos = CellToWorld(cPos);
 
-            GUI.Label(new Rect(20, 20, 300, 20), $"World Positon: {camWPos}");
-            GUI.Label(new Rect(20, 40, 300, 20), $"World2Cell: {cPos}");
-            GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {wPos}");
+                GUI.Label(new Rect(20, 20, 300, 20), $"World Positon: {camWPos}");
+                GUI.Label(new Rect(20, 40, 300, 20), $"World2Cell: {cPos}");
+                GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {wPos}");
+            }
         }
 
         private void DrawEditorGrid()
