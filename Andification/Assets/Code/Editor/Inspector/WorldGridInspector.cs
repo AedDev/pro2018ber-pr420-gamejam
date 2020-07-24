@@ -15,9 +15,21 @@ namespace Andification.Editor.Inspector
 
         private WorldGrid world;
 
+        public Texture2D texDefault;
+        public Texture2D texSpawner;
+        public Texture2D texWalkable;
+        public Texture2D texNotWalkable;
+        public Texture2D texTarget;
+
         private void OnEnable()
         {
             world = target as WorldGrid;
+
+            texDefault = Resources.Load<Texture2D>("MapEditor/Textures/Default.png");
+            texSpawner = Resources.Load<Texture2D>("MapEditor/Textures/Spawner.png");
+            texWalkable = Resources.Load<Texture2D>("MapEditor/Textures/Walkable.png");
+            texNotWalkable = Resources.Load<Texture2D>("MapEditor/Textures/NotWalkable.png");
+            texTarget = Resources.Load<Texture2D>("MapEditor/Textures/Target.png");
         }
 
         public override void OnInspectorGUI()
@@ -58,6 +70,40 @@ namespace Andification.Editor.Inspector
                 AssetDatabase.SaveAssets();
             }
             EditorGUI.EndDisabledGroup();
+        }
+
+        private void OnSceneGUI()
+        {
+            DrawMapEditorUtils();
+        }
+
+        private void DrawMapEditorUtils()
+        {
+            var data = world.GridDataReference.CellData;
+            var zoom = SceneView.currentDrawingSceneView.camera.orthographicSize;
+
+            Handles.BeginGUI();
+            for (int i = 0; i < data.Length; i++)
+            {
+                var worldPos = world.CellToWorld(data[i].CellPosition) - (world.GridDataReference.CellSize / 2) + new Vector2(0, world.GridDataReference.CellSize.y);
+                var screenPos = HandleUtility.WorldToGUIPoint(worldPos);
+                var cellRect = new Rect(
+                    screenPos,
+                    new Vector2(world.GridDataReference.CellSize.x, world.GridDataReference.CellSize.y) * 322f / zoom
+                );
+
+                switch (data[i].ContentType)
+                {
+                    case GridContentType.Nothing:
+                        GUI.DrawTexture(cellRect, texDefault);
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+            Handles.EndGUI();
         }
     }
 }
