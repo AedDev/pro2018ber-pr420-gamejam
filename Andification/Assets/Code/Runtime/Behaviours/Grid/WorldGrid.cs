@@ -111,13 +111,18 @@ namespace Andification.Runtime.GridSystem
 
         public WorldGridCell GetCellAt(Vector2Int cellPosition)
         {
-            if (cellPosition.x < 0 || cellPosition.x > worldSize.x)
+            return GetCellAt(cellPosition.x, cellPosition.y);
+        }
+        
+        public WorldGridCell GetCellAt(int cellX, int cellY)
+        {
+            if (cellX < 0 || cellX > worldSize.x)
                 return null;
 
-            if (cellPosition.y < 0 || cellPosition.y > worldSize.y)
+            if (cellY < 0 || cellY > worldSize.y)
                 return null;
             
-            return CellMap2D[cellPosition.x, cellPosition.y];
+            return CellMap2D[cellX, cellY];
         }
 
         public Vector2 CellToWorld(Vector2Int cellPosition)
