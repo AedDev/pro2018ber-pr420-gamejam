@@ -6,8 +6,8 @@ using UnityEngine;
 namespace Andification.Runtime.Controler {
 	public class InputAdapter : Singleton<InputAdapter> {
 
-		public System.Action<Vector2Int> OnStartInteract = null; //<! in Screenspace
-		public System.Action<Vector2Int> OnStopInteract = null; //<! in Screenspace
+		public System.Action<Vector2Int> OnInteractStart = null; //<! in Screenspace
+		public System.Action<Vector2Int, bool> OnInteractStop = null; //<! in Screenspace
 		public System.Action<Vector2Int> OnClick = null; //<! in Screenspace
 		public System.Action<Vector2Int> OnHoverStart = null; //<! in Screenspace
 		public System.Action OnHoverStop = null;
@@ -35,15 +35,11 @@ namespace Andification.Runtime.Controler {
 
 			Vector2Int currentMousePosition = new Vector2Int((int)Input.mousePosition.x, (int)Input.mousePosition.y);
 			if(Input.GetMouseButtonDown(0)) {
-				OnStartInteract?.Invoke(currentMousePosition);
+				OnInteractStart?.Invoke(currentMousePosition);
 
 				_lastClick = Time.time;
 			}else if(Input.GetMouseButtonUp(0)) {
-				OnStopInteract?.Invoke(currentMousePosition);
-
-				if(Time.time <= _lastClick + _timeToClick) {
-					OnClick?.Invoke(currentMousePosition);
-				}
+				OnInteractStop?.Invoke(currentMousePosition, Time.time <= _lastClick + _timeToClick);
 			}
 
 			if(!Input.GetMouseButton(0)) {
