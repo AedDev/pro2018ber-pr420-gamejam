@@ -7,9 +7,14 @@ using Andification.Runtime.Data;
 namespace Andification.Runtime {
 
 	[System.Serializable]
-	public struct SpawnerData {
+	public struct EnemyData {
 		public EnemyUnitConfiguration enemy;
 		public int count;
+	}
+
+	[System.Serializable]
+	public struct SpawnerData {
+		public EnemyData[] enemys;
 	}
 
 	[System.Serializable]

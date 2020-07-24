@@ -6,9 +6,7 @@ using UnityEngine;
 namespace Andification.Runtime {
 	public class LevelManager : MonoBehaviour {
 		[Header("LevelData")]
-		[SerializeField] GridData _grid;
-		[SerializeField] Vector2[] _towerPositions;
-		[SerializeField] WaveData[] _waves;
+		[SerializeField] MapData _map;
 
 		[Header("Prefabs")]
 		[SerializeField] Sprite _onlyWalkable;
@@ -21,7 +19,7 @@ namespace Andification.Runtime {
 
 		void Start() {
 			GameData.s_instance.LevelGrid = new GridSystem.WorldGrid();
-			GameData.s_instance.LevelGrid.GridDataReference = _grid;
+			GameData.s_instance.LevelGrid.GridDataReference = _map.gridData;
 
 			foreach(var it in GameData.s_instance.LevelGrid.GridDataReference.CellData) {
 				if(it.ContentType == GridSystem.GridContentType.Nothing) {
@@ -42,9 +40,9 @@ namespace Andification.Runtime {
 				element.sprite = GetCellSprite(it);
 			}
 
-			GameData.s_instance.Waves = _waves;
+			GameData.s_instance.Waves = _map.waves;
 
-			foreach(var it in _towerPositions) {
+			foreach(var it in _map.towerPositions) {
 				var element = Instantiate(_towerSlot);
 				element.transform.position = new Vector3(it.x, it.y, 0);
 			}
