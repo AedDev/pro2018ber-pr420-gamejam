@@ -3,6 +3,9 @@
     public enum GridContentType
     {
         Nothing,
-        Tower
+        Tower,
+        Baricade,
+        Spawner,
+        Target,
     }
 }
