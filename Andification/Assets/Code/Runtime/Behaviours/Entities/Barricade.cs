@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Andification.Runtime.Data;
-using UnityEngine;
+﻿using Andification.Runtime.Data;
 
 namespace Andification.Runtime.Behaviours.Entities
 {
-	public class Barricade : Entity<EntityConfiguration>
+	public class Barricade : Entity<BarricadeConfiguration>
 	{
-		
+		public override bool IsEnemyEntity => false;
 	}
 }
