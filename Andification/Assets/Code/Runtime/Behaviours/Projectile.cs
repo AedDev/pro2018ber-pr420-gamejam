@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Andification.Runtime.Behaviours
 {
-	public class ProjectileBehaviour : MonoBehaviour, IPoolableObject<ProjectileBehaviour>
+	public class Projectile : MonoBehaviour, IPoolableObject<Projectile>
 	{
-		public ObjectPool<ProjectileBehaviour> SelfPool { get; set; }
+		public ObjectPool<Projectile> SelfPool { get; set; }
 		public IAttackableEntity TargetEntity { get; private set; }
 		public ProjectileConfiguration Configuration { get; private set; }
 		public float AliveTime { get; private set; }
 
-		private SpriteRenderer renderer;
+		private SpriteRenderer spriteRenderer;
 
 		public void Initialise(ProjectileConfiguration configuration, IAttackableEntity targetEntity)
 		{
@@ -21,8 +21,8 @@ namespace Andification.Runtime.Behaviours
 			AliveTime = 0;
 
 			//Update sprite
-			renderer = renderer == null ? gameObject.AddComponent<SpriteRenderer>() : renderer;
-			renderer.sprite = configuration.ProjectileSprite;
+			spriteRenderer = spriteRenderer == null ? gameObject.AddComponent<SpriteRenderer>() : spriteRenderer;
+			spriteRenderer.sprite = configuration.ProjectileSprite;
 
 			//Start Projectile
 			Configuration.ProjectileStart(this);

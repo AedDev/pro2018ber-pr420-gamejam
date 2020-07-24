@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Andification.Runtime.Data
 {
-	public abstract class ProjectileConfiguration : ScriptableObject
+	public abstract class ProjectileConfiguration : AndificationScriptableObject
 	{
 		public Sprite ProjectileSprite;
 
@@ -20,7 +20,7 @@ namespace Andification.Runtime.Data
 		public float HitDistance;
 		public float MaxAliveTime;
 
-		public void ProjectileStart(ProjectileBehaviour projectile)
+		public void ProjectileStart(Projectile projectile)
 		{
 			if (InstantTravel)
 			{
@@ -32,7 +32,7 @@ namespace Andification.Runtime.Data
 			}
 		}
 
-		public void ProjectileUpdate(ProjectileBehaviour projectile)
+		public void ProjectileUpdate(Projectile projectile)
 		{
 			if (projectile.AliveTime > MaxAliveTime)
 			{
@@ -44,7 +44,7 @@ namespace Andification.Runtime.Data
 			}
 		}
 
-		protected virtual bool TryReachTarget(ProjectileBehaviour projectile)
+		protected virtual bool TryReachTarget(Projectile projectile)
 		{
 			Transform projectileTransform = projectile.transform;
 			Vector2 posDif = (Vector2) (projectile.TargetEntity as BaseEntity).transform.position - (Vector2) projectileTransform.position;
@@ -75,22 +75,22 @@ namespace Andification.Runtime.Data
 			return targetReached;
 		}
 
-		private void TargetReached(ProjectileBehaviour projectile)
+		private void TargetReached(Projectile projectile)
 		{
 			projectile.transform.position = (projectile.TargetEntity as BaseEntity).transform.position;
 			OnTargetReached(projectile);
 			projectile.TearDown();
 		}
 
-		private void ProjectileTimeOut(ProjectileBehaviour projectile)
+		private void ProjectileTimeOut(Projectile projectile)
 		{
 			OnProjectileTimeOut(projectile);
 			projectile.TearDown();
 		}
 
-		protected abstract void OnProjectileStart(ProjectileBehaviour projectile);
-		protected abstract void OnProjectileUpdate(ProjectileBehaviour projectile);
-		protected abstract void OnTargetReached(ProjectileBehaviour projectile);
-		protected abstract void OnProjectileTimeOut(ProjectileBehaviour projectile);
+		protected abstract void OnProjectileStart(Projectile projectile);
+		protected abstract void OnProjectileUpdate(Projectile projectile);
+		protected abstract void OnTargetReached(Projectile projectile);
+		protected abstract void OnProjectileTimeOut(Projectile projectile);
 	}
 }

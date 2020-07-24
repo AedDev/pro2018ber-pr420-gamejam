@@ -16,11 +16,11 @@ namespace Andification.Runtime.Data
 		public bool AOEHasFalloff;
 		public float ZeroOutAOERange;
 
-		protected override void OnProjectileStart(ProjectileBehaviour projectile) { }
+		protected override void OnProjectileStart(Projectile projectile) { }
 
-		protected override void OnProjectileUpdate(ProjectileBehaviour projectile) { }
+		protected override void OnProjectileUpdate(Projectile projectile) { }
 
-		protected override void OnTargetReached(ProjectileBehaviour projectile)
+		protected override void OnTargetReached(Projectile projectile)
 		{
 			if (AOEDamage)
 			{
@@ -32,12 +32,12 @@ namespace Andification.Runtime.Data
 			}
 		}
 
-		private void CauseSingleDamage(ProjectileBehaviour projectile)
+		private void CauseSingleDamage(Projectile projectile)
 		{
 			projectile.TargetEntity.Damage(Damage);
 		}
 
-		private void CauseAOEDamage(ProjectileBehaviour projectile)
+		private void CauseAOEDamage(Projectile projectile)
 		{
 			foreach (IAttackableEntity entity in GetRelevantEntities(projectile.TargetEntity))
 			{
@@ -68,7 +68,7 @@ namespace Andification.Runtime.Data
 			}
 		}
 
-		protected override void OnProjectileTimeOut(ProjectileBehaviour projectile)
+		protected override void OnProjectileTimeOut(Projectile projectile)
 		{
 			if (AOEDamage && AOEOnTimeOut)
 			{

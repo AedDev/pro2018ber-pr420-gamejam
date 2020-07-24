@@ -8,7 +8,7 @@ namespace Andification.Runtime.Factories
 {
 	public static class ProjectileFactory
 	{
-		private static ObjectPool<ProjectileBehaviour> ProjectilePool;
+		private static ObjectPool<Projectile> ProjectilePool;
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		private static void Initialise()
@@ -25,7 +25,7 @@ namespace Andification.Runtime.Factories
 
 		private static void SetupPool()
 		{
-			ProjectilePool = new ObjectPool<ProjectileBehaviour>(CreateNewEmptyProjectile);
+			ProjectilePool = new ObjectPool<Projectile>(CreateNewEmptyProjectile);
 		}
 
 		private static void TearDown()
@@ -36,17 +36,17 @@ namespace Andification.Runtime.Factories
 
 		public static void CreateProjectile(ProjectileConfiguration projectileConfiguration, IAttackableEntity projectileTarget)
 		{
-			ProjectileBehaviour projectile = ProjectilePool.GetPoolObject();
+			Projectile projectile = ProjectilePool.GetPoolObject();
 			projectile.Initialise(projectileConfiguration, projectileTarget);
 		}
 
-		private static ProjectileBehaviour CreateNewEmptyProjectile()
+		private static Projectile CreateNewEmptyProjectile()
 		{
 			GameObject projectileObject = new GameObject("Projectile");
 
 			//TODO: Give the projectile a parent
 			projectileObject.transform.SetParent(null);
-			ProjectileBehaviour projectile = projectileObject.AddComponent<ProjectileBehaviour>();
+			Projectile projectile = projectileObject.AddComponent<Projectile>();
 
 			return projectile;
 		}

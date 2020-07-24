@@ -2,7 +2,7 @@
 
 namespace Andification.Runtime.Data
 {
-	public abstract class EntityConfiguration : ScriptableObject
+	public abstract class EntityConfiguration : AndificationScriptableObject
 	{
 		public string Name;
 	}
