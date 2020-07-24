@@ -31,6 +31,8 @@ namespace Andification.Runtime {
 		public Observable<int> CurrentWave { get; private set; }
 		public WaveData[] Waves;
 
+		public Vector2Int TargetPosition;
+
 	}
 }
 
