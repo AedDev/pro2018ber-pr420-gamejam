@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Andification.Runtime.Extensions;
 
 namespace Andification.Runtime.GridSystem
