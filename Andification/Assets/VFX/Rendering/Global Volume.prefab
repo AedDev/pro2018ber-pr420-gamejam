@@ -61,5 +61,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aeaf9758b71698459def79a0e5100ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _volume: {fileID: 0}
-  _volumeProfile: {fileID: 0}
+  _testMode: 0
+  _minBloom: 0.3
+  _minChromAber: 0
+  _minVignette: 0.05
+  _maxBloom: 3
+  _maxChromAber: 1
+  _maxVignette: 1

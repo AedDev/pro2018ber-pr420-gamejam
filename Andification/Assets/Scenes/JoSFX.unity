@@ -773,25 +773,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
-    - target: {fileID: 8357627914950590999, guid: 91c50d5999537e049b973f6ec2ae925a,
-        type: 3}
-      propertyPath: _minVignette
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357627914950590999, guid: 91c50d5999537e049b973f6ec2ae925a,
-        type: 3}
-      propertyPath: _minChromAber
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357627914950590999, guid: 91c50d5999537e049b973f6ec2ae925a,
-        type: 3}
-      propertyPath: _maxChromAber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357627914950590999, guid: 91c50d5999537e049b973f6ec2ae925a,
-        type: 3}
-      propertyPath: _minBloom
-      value: 0.3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91c50d5999537e049b973f6ec2ae925a, type: 3}
