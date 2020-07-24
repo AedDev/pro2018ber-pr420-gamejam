@@ -145,9 +145,9 @@ namespace Andification.Runtime
 				{
 					int xPos = startX + x;
 					int yPos = startY + y;
-					WorldGridCell targetCell = grid.GetCellAt(xPos, yPos);
+					WorldGridCell targetCell = grid.GetCellAt(new Vector2Int(xPos, yPos));
 					if ((targetCell == null)
-						|| !targetCell.walkable
+						|| !targetCell.Walkable
 						|| ((extraBlockedCells.Count > 0) && extraBlockedCells.Contains(new Vector2Int(xPos, yPos))))
 					{
 						continue;

@@ -8,15 +8,12 @@ public class ColorMoveAccessor : MonoBehaviour
 
 	int _displacement = 1;
 	int scale = 6;
-	Color color;
 
-	// Start is called before the first frame update
 	void Start()
 	{
 		_material = GetComponent<SpriteRenderer>()?.material;
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		_displacement = (int)(Mathf.Sin(Time.time)*64f);
