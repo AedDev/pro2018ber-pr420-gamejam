@@ -55,10 +55,16 @@ namespace Andification.Runtime.GridSystem
                 var camWPos = cam.ScreenToWorldPoint(mPos);
                 var cPos = WorldToCell(camWPos);
                 var wPos = CellToWorld(cPos);
+                var cell = GetCellAt(cPos);
 
                 GUI.Label(new Rect(20, 20, 300, 20), $"World Positon: {camWPos}");
                 GUI.Label(new Rect(20, 40, 300, 20), $"World2Cell: {cPos}");
                 GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {wPos}");
+
+                if (cell != null)
+                {
+                    GUI.Label(new Rect(cam.WorldToScreenPoint(wPos), new Vector2(cellSize.x, cellSize.y)), cell.cellPosition.ToString());
+                }
             }
         }
 
@@ -106,15 +112,17 @@ namespace Andification.Runtime.GridSystem
                 for (int y = 0; y < cellMap2D.GetLength(1); y++)
                     cellMap2D[x, y] = new WorldGridCell(new Vector2Int(x, y));
 
+            _cellMap = cellMap2D.ToOneDimensional();
+
             Initialized = true;
         }
 
         public WorldGridCell GetCellAt(Vector2Int cellPosition)
         {
-            if (cellPosition.x < 0 || cellPosition.x > worldSize.x)
+            if (cellPosition.x < 0 || cellPosition.x >= worldSize.x)
                 return null;
 
-            if (cellPosition.y < 0 || cellPosition.y > worldSize.y)
+            if (cellPosition.y < 0 || cellPosition.y >= worldSize.y)
                 return null;
             
             return CellMap2D[cellPosition.x, cellPosition.y];
