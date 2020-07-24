@@ -1,44 +1,20 @@
 ﻿using UnityEngine;
-using Andification.Runtime.Extensions;
 using System;
+using Andification.Runtime.Extensions;
+using Andification.Runtime.Data.ScriptableObjects.Map;
 
 namespace Andification.Runtime.GridSystem
 {
     public class WorldGrid : MonoBehaviour
     {
-        /// <summary>
-        /// Size of the grid in cells
-        /// </summary>
-        [SerializeField] private Vector2Int worldSize = Vector2Int.zero;
-
-        /// <summary>
-        /// The size of a single cell in unity units
-        /// </summary>
-        [SerializeField] private Vector2 cellSize = Vector2.one;
+        [Header("References")]
+        public GridData gridData;
 
         [Space]
         [Header("Debug Stuff")]
         [SerializeField] private bool debugMode = true;
         [SerializeField] private bool drawGrid = true;
         [SerializeField] private Color gridColor = Color.cyan;
-
-        /// <summary>
-        /// Will be true as soon as the map was initialized
-        /// </summary>
-        public bool Initialized
-        {
-            get;
-            private set;
-        } = false;
-
-        public Vector2Int WorldSize => worldSize;
-        public Vector2 CellSize => cellSize;
-
-        private WorldGridCell[] _cellMap = null;
-        private WorldGridCell[,] CellMap2D
-        {
-            get => _cellMap?.ToTwoDimensional(worldSize.x, worldSize.y);
-        }
 
         public event EventHandler<WorldGridCell> cellChanged;
 
@@ -50,13 +26,12 @@ namespace Andification.Runtime.GridSystem
 
         private void OnValidate()
         {
-            ClampProperties();
+            ClampScaling();
         }
 
         private void Awake()
         {
-            InitializeGrid();
-            ClampProperties();
+            ClampScaling();
         }
 
         private void OnGUI()
@@ -67,20 +42,20 @@ namespace Andification.Runtime.GridSystem
                 var cam = Camera.main;
                 var camWPos = cam.ScreenToWorldPoint(mPos);
                 var cPos = WorldToCell(camWPos);
-                var wPos = CellToWorld(cPos);
                 var cell = GetCellAt(cPos);
+                var wPos = cell != null ? cell.CellPosition : Vector2Int.zero;
 
                 GUI.Label(new Rect(20, 20, 300, 20), $"World Positon: {camWPos}");
                 GUI.Label(new Rect(20, 40, 300, 20), $"World2Cell: {cPos}");
-                GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {wPos}");
+                GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {(cell != null ? wPos.ToString() : "No valid cell!")}");
 
                 if (cell != null)
                 {
                     GUI.Label(
                         new Rect(
-                            cam.WorldToScreenPointInvertedY(CellToWorld(cell.cellPosition) - (cellSize / 2) + new Vector2(0, cellSize.y)),
+                            cam.WorldToScreenPointInvertedY(wPos - (gridData.CellSize / 2) + new Vector2(0, gridData.CellSize.y)),
                             new Vector2(100, 100)
-                        ), cell.cellPosition.ToString()
+                        ), cell.CellPosition.ToString()
                     );
                 }
             }
@@ -90,20 +65,23 @@ namespace Andification.Runtime.GridSystem
         {
             Gizmos.color = gridColor;
 
+            if (!gridData)
+                return;
+
             // Horizontal Lines
-            for (int i = 0; i < worldSize.y + 1; i++)
+            for (int i = 0; i < gridData.WorldSize.y + 1; i++)
             {
-                Vector2 startPos = new Vector3(transform.position.x, (i * cellSize.y) + transform.position.y);
-                Vector2 endPos = new Vector3((worldSize.x * cellSize.x) + transform.position.x, (i * cellSize.y) + transform.position.y);
+                Vector2 startPos = new Vector3(transform.position.x, (i * gridData.CellSize.y) + transform.position.y);
+                Vector2 endPos = new Vector3((gridData.WorldSize.x * gridData.CellSize.x) + transform.position.x, (i * gridData.CellSize.y) + transform.position.y);
 
                 Gizmos.DrawLine(startPos, endPos);
             }
 
             // Vertical Lines
-            for (int i = 0; i < worldSize.x + 1; i++)
+            for (int i = 0; i < gridData.WorldSize.x + 1; i++)
             {
-                Vector2 startPos = new Vector3((i * cellSize.x) + transform.position.x, transform.position.y);
-                Vector2 endPos = new Vector3((i * cellSize.x) + transform.position.x, (worldSize.y * cellSize.y) + transform.position.y);
+                Vector2 startPos = new Vector3((i * gridData.CellSize.x) + transform.position.x, transform.position.y);
+                Vector2 endPos = new Vector3((i * gridData.CellSize.x) + transform.position.x, (gridData.WorldSize.y * gridData.CellSize.y) + transform.position.y);
 
                 Gizmos.DrawLine(startPos, endPos);
             }
@@ -111,28 +89,11 @@ namespace Andification.Runtime.GridSystem
             Gizmos.color = Color.white;
         }
 
-        private void ClampProperties()
+        private void ClampScaling()
         {
-            worldSize.Clamp(Vector2Int.one, Vector2Int.one * int.MaxValue);
-            cellSize.Clamp(Vector2.one, Vector2.one * float.MaxValue);
-
             var localScale = transform.localScale;
             localScale.Clamp(Vector3.one, Vector3.one);
             transform.localScale = localScale;
-        }
-
-        private void InitializeGrid()
-        {
-            var cellMap2D = new WorldGridCell[worldSize.x, worldSize.y];
-
-            // Initialize cells
-            for (int x = 0; x < cellMap2D.GetLength(0); x++)
-                for (int y = 0; y < cellMap2D.GetLength(1); y++)
-                    cellMap2D[x, y] = new WorldGridCell(this, new Vector2Int(x, y), OnCellChanged);
-
-            _cellMap = cellMap2D.ToOneDimensional();
-
-            Initialized = true;
         }
 
         /// <summary>
@@ -142,13 +103,16 @@ namespace Andification.Runtime.GridSystem
         /// <returns>The cell at the given position or null</returns>
         public WorldGridCell GetCellAt(Vector2Int cellPosition)
         {
-            if (cellPosition.x < 0 || cellPosition.x >= worldSize.x)
+            if (!gridData.Initialized)
                 return null;
 
-            if (cellPosition.y < 0 || cellPosition.y >= worldSize.y)
+            if (cellPosition.x < 0 || cellPosition.x >= gridData.WorldSize.x)
+                return null;
+
+            if (cellPosition.y < 0 || cellPosition.y >= gridData.WorldSize.y)
                 return null;
             
-            return CellMap2D[cellPosition.x, cellPosition.y];
+            return gridData.CellData2D[cellPosition.x, cellPosition.y];
         }
 
         /// <summary>
@@ -158,7 +122,7 @@ namespace Andification.Runtime.GridSystem
         /// <returns></returns>
         public Vector2 CellToWorld(Vector2Int cellPosition)
         {
-            return transform.position + new Vector3((cellPosition.x * cellSize.x) + cellSize.x / 2, (cellPosition.y * cellSize.y) + cellSize.y / 2);
+            return transform.position + new Vector3((cellPosition.x * gridData.CellSize.x) + gridData.CellSize.x / 2, (cellPosition.y * gridData.CellSize.y) + gridData.CellSize.y / 2);
         }
 
         /// <summary>
@@ -169,8 +133,8 @@ namespace Andification.Runtime.GridSystem
         public Vector2Int WorldToCell(Vector2 worldPosition)
         {
             Vector2Int a = new Vector2Int(
-                (int)((worldPosition.x + cellSize.x - transform.position.x) / cellSize.x) - 1,
-                (int)((worldPosition.y + cellSize.y - transform.position.y) / cellSize.y) - 1
+                (int)((worldPosition.x + gridData.CellSize.x - transform.position.x) / gridData.CellSize.x) - 1,
+                (int)((worldPosition.y + gridData.CellSize.y - transform.position.y) / gridData.CellSize.y) - 1
             );
             
             //a.Clamp(Vector2Int.zero, worldSize);
