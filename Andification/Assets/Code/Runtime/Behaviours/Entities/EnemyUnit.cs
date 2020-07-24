@@ -18,18 +18,6 @@ namespace Andification.Runtime.Behaviours.Entities
 			UpdateNodeIndex(0);
 		}
 
-		private void UpdateNodeIndex(int newNodeIndex)
-		{
-			Vector2Int[] selfPath = UnitPathManager.GetUnitPath(gateIndex);
-			nodeIndex = newNodeIndex;
-			nextNode = selfPath[newNodeIndex + 1];
-			
-			//Update direction and position
-			Transform t = transform;
-			t.position = (Vector2)selfPath[newNodeIndex];
-			t.right = (nextNode - (Vector2) t.position).normalized;
-		}
-
 		private void Update()
 		{
 			float stepDistance = Configuration.MoveSpeed * Time.deltaTime;
@@ -39,6 +27,36 @@ namespace Andification.Runtime.Behaviours.Entities
 			{
 				UpdateNodeIndex(nodeIndex + 1);
 			}
+		}
+
+		private void UpdateNodeIndex(int newNodeIndex)
+		{
+			Vector2Int[] selfPath = UnitPathManager.GetUnitPath(gateIndex);
+			if (newNodeIndex == selfPath.Length - 1)
+			{
+				ReachedExitNode();
+				return;
+			}
+			
+			nodeIndex = newNodeIndex;
+			nextNode = selfPath[newNodeIndex + 1];
+			
+			//Update direction and position
+			Transform t = transform;
+			t.position = (Vector2)selfPath[newNodeIndex];
+			t.right = (nextNode - (Vector2) t.position).normalized;
+		}
+
+		protected override void Death()
+		{
+			GameData.s_instance.CurrentMoney.value += Configuration.KillReward;
+			base.Death();
+		}
+		
+		private void ReachedExitNode()
+		{
+			GameData.s_instance.CurrentLive.value -= Configuration.NexusDamage;
+			TearDown();
 		}
 	}
 }
