@@ -13,7 +13,7 @@ namespace Andification.Runtime {
 		public Observable<int> NextWaveEnemyCount { get; private set; }
 		public Observable<int> CurrentEnemyCount { get; private set; }
 
-		public Grid LevelGrid;
+		public GridSystem.WorldGrid LevelGrid;
 
 	}
 }
