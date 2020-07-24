@@ -6,12 +6,13 @@ namespace Andification.Runtime.GridSystem
 {
     public class WorldGrid : MonoBehaviour
     {
-        public Vector2Int worldSize = Vector2Int.zero;
-        public Vector2 cellSize = Vector2.one;
+        [SerializeField] private Vector2Int worldSize = Vector2Int.zero;
+        [SerializeField] private Vector2 cellSize = Vector2.one;
+        
         [Space]
         [Header("Debug Stuff")]
-        public bool drawGrid = true;
-        public Color gridColor = Color.cyan;
+        [SerializeField] private bool drawGrid = true;
+        [SerializeField] private Color gridColor = Color.cyan;
 
         public bool Initialized
         {
@@ -19,13 +20,16 @@ namespace Andification.Runtime.GridSystem
             private set;
         } = false;
 
-        private WorldGridCell[] _cellMap;
+        public Vector2Int WorldSize => worldSize;
+        public Vector2 CellSize => cellSize;
+
+        private WorldGridCell[] _cellMap = null;
         private WorldGridCell[,] CellMap2D
         {
-            get => _cellMap.ToTwoDimensional(worldSize.x, worldSize.y);
+            get => _cellMap?.ToTwoDimensional(worldSize.x, worldSize.y);
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             if (drawGrid)
                 DrawEditorGrid();
@@ -45,8 +49,6 @@ namespace Andification.Runtime.GridSystem
         private void Update()
         {
             
-
-
         }
 
         private void OnGUI()
@@ -62,7 +64,6 @@ namespace Andification.Runtime.GridSystem
             GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {wPos}");
         }
 
-        // TODO => transform.position is not applied correctly
         private void DrawEditorGrid()
         {
             Gizmos.color = gridColor;
@@ -70,8 +71,8 @@ namespace Andification.Runtime.GridSystem
             // Horizontal Lines
             for (int i = 0; i < worldSize.y + 1; i++)
             {
-                Vector2 startPos = transform.position + new Vector3(transform.position.x, i * cellSize.y);
-                Vector2 endPos = transform.position + new Vector3((worldSize.x * cellSize.x) + transform.position.x, i * cellSize.y);
+                Vector2 startPos = new Vector3(transform.position.x, (i * cellSize.y) + transform.position.y);
+                Vector2 endPos = new Vector3((worldSize.x * cellSize.x) + transform.position.x, (i * cellSize.y) + transform.position.y);
 
                 Gizmos.DrawLine(startPos, endPos);
             }
@@ -79,8 +80,8 @@ namespace Andification.Runtime.GridSystem
             // Vertical Lines
             for (int i = 0; i < worldSize.x + 1; i++)
             {
-                Vector2 startPos = transform.position + new Vector3(i * cellSize.x, transform.position.y);
-                Vector2 endPos = transform.position + new Vector3(i * cellSize.x, (worldSize.y * cellSize.y) + transform.position.y);
+                Vector2 startPos = new Vector3((i * cellSize.x) + transform.position.x, transform.position.y);
+                Vector2 endPos = new Vector3((i * cellSize.x) + transform.position.x, (worldSize.y * cellSize.y) + transform.position.y);
 
                 Gizmos.DrawLine(startPos, endPos);
             }
@@ -126,13 +127,16 @@ namespace Andification.Runtime.GridSystem
             return transform.position + new Vector3((cellPosition.x * cellSize.x) + cellSize.x / 2, (cellPosition.y * cellSize.y) + cellSize.y / 2);
         }
 
-        // TODO => Test if transform.position is applied correctly
         public Vector2Int WorldToCell(Vector2 worldPosition)
         {
-            Vector2Int a = new Vector2Int((int)(transform.position.x - worldPosition.x + cellSize.x / cellSize.x), (int)(transform.position.y - worldPosition.y + cellSize.y / cellSize.y));
-            a.Clamp(Vector2Int.zero, Vector2Int.one * int.MaxValue);
+            Vector2Int a = new Vector2Int(
+                (int)((worldPosition.x + cellSize.x - transform.position.x) / cellSize.x) - 1,
+                (int)((worldPosition.y + cellSize.y - transform.position.y) / cellSize.y) - 1
+            );
+            
+            //a.Clamp(Vector2Int.zero, worldSize);
+            
             return a;
-            //throw new NotImplementedException();
         }
     }
 }
