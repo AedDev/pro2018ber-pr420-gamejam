@@ -4,6 +4,8 @@ namespace Andification.Runtime.Behaviours.Entities
 {
 	public interface IAttackableEntity
 	{
+		int MaxHealth { get; }
+		int CurrentHealth { get; }
 		void Damage(int amount);
 	}
 	public abstract class AttackableEntity<T> : Entity<T>, IAttackableEntity where T : AttackableEntityConfiguration
