@@ -1,25 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AsserTOOLres;
 
 namespace Andification.Runtime.View {
 	public class ShowInWave : MonoBehaviour {
 		[SerializeField] bool doShowInWave = true;
 
 		private void Start() {
-			//TODO: bind Actions
+			GameData.s_instance.InWave.OnValueChangeWithState += OnSwitch;
 		}
 
 		private void OnDestroy() {
-			//TODO: debind Actions
+			if(GameData.Exists())
+				GameData.s_instance.InWave.OnValueChangeWithState -= OnSwitch;
 		}
 
-		void OnSwitchToWave() {
-			gameObject.SetActive(doShowInWave);
-		}
-
-		void OnSwitchToBuild() {
-			gameObject.SetActive(!doShowInWave);
+		void OnSwitch(Observable<bool> InWave) {
+			gameObject.SetActive(InWave.value == doShowInWave);
 		}
 	}
 }
