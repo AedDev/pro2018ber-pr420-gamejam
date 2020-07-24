@@ -15,9 +15,23 @@ namespace Andification.Editor.Inspector
 
         private WorldGrid world;
 
+        public Texture2D texDefault;
+        public Texture2D texSpawner;
+        public Texture2D texWalkable;
+        public Texture2D texNotWalkable;
+        public Texture2D texTarget;
+
         private void OnEnable()
         {
             world = target as WorldGrid;
+
+            Debug.Log("Loading map editor textures ...");
+            texDefault = Resources.Load<Texture2D>("MapEditor/Textures/Default");
+            texSpawner = Resources.Load<Texture2D>("MapEditor/Textures/Spawner");
+            texWalkable = Resources.Load<Texture2D>("MapEditor/Textures/Walkable");
+            texNotWalkable = Resources.Load<Texture2D>("MapEditor/Textures/NotWalkable");
+            texTarget = Resources.Load<Texture2D>("MapEditor/Textures/Target");
+            Debug.Log("Map editor textures loaded!");
         }
 
         public override void OnInspectorGUI()
@@ -58,6 +72,60 @@ namespace Andification.Editor.Inspector
                 AssetDatabase.SaveAssets();
             }
             EditorGUI.EndDisabledGroup();
+        }
+
+        private void OnSceneGUI()
+        {
+            DrawMapEditorUtils();
+        }
+
+        private void DrawMapEditorUtils()
+        {
+            var data = world.GridDataReference.CellData;
+            var zoom = SceneView.currentDrawingSceneView.camera.orthographicSize;
+
+            var typeValues = Enum.GetValues(typeof(GridContentType)) as GridContentType[];
+
+            Handles.BeginGUI();
+            for (int i = 0; i < data.Length; i++)
+            {
+                var worldPos = world.CellToWorld(data[i].CellPosition) - (world.GridDataReference.CellSize / 2) + new Vector2(0, world.GridDataReference.CellSize.y);
+                var screenPos = HandleUtility.WorldToGUIPoint(worldPos);
+                var cellRect = new Rect(
+                    screenPos,
+                    new Vector2(world.GridDataReference.CellSize.x, world.GridDataReference.CellSize.y) * 322f / zoom
+                );
+
+                var tex = GetTextureForContentType(data[i].ContentType);
+                
+                if (GUI.Button(cellRect, tex))
+                {
+                    var curTypeIndex = Array.FindIndex(typeValues, type => world.GridDataReference.CellData[i].ContentType == type);
+                    world.GridDataReference.CellData[i].ContentType = typeValues[++curTypeIndex % typeValues.Length];
+                }
+            }
+            Handles.EndGUI();
+        }
+
+        private Texture2D GetTextureForContentType(GridContentType type)
+        {
+            switch (type)
+            {
+                case GridContentType.Nothing:
+                    return texWalkable;
+
+                case GridContentType.Spawner:
+                    return texSpawner;
+
+                case GridContentType.Baricade:
+                    return texNotWalkable;
+
+                case GridContentType.Target:
+                    return texTarget;
+
+                default:
+                    return null;
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
     {
         public new string name;
 
-        public WorldGrid gridData;
+        public GridData gridData;
+        public Vector2[] towerPositions;
+        public WaveData[] waves;
     }
 }

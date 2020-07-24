@@ -1,3 +1,4 @@
+using AsserTOOLres;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,9 +24,17 @@ namespace Andification.Runtime.View {
 				Debug.LogError("FATAL: No AttackableEntity found!!");
 				Destroy(gameObject); //very hardcore destroyes everything so no borken UI is flying around
 			}
+
+			_target.CurrentHealth.OnValueChangeWithState += HandleHealthChange;
 		}
 
-		private void FixedUpdate() {
+		private void OnDestroy() {
+			if(_target != null) {
+				_target.CurrentHealth.OnValueChangeWithState -= HandleHealthChange;
+			}
+		}
+
+		void HandleHealthChange(Observable<int> health) {
 			if(_target.CurrentHealth.value >= _target.MaxHealth) {
 				_healthBar.gameObject.SetActive(false);
 				return;

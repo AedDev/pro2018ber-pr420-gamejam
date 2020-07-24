@@ -28,7 +28,7 @@ namespace Andification.Runtime.View {
 				GameData.s_instance.CurrentMoney.OnValueChangeWithState += OnValueChange;
 				break;
 			case observerType.NextEnemyCount:
-				GameData.s_instance.NextWaveEnemyCount.OnValueChangeWithState += OnValueChange;
+				GameData.s_instance.MaxEnemyCount.OnValueChangeWithState += OnValueChange;
 				break;
 			case observerType.CurrentEnemyCount:
 				GameData.s_instance.CurrentEnemyCount.OnValueChangeWithState += OnValueChange;
@@ -48,7 +48,7 @@ namespace Andification.Runtime.View {
 					GameData.s_instance.CurrentMoney.OnValueChangeWithState -= OnValueChange;
 					break;
 				case observerType.NextEnemyCount:
-					GameData.s_instance.NextWaveEnemyCount.OnValueChangeWithState -= OnValueChange;
+					GameData.s_instance.MaxEnemyCount.OnValueChangeWithState -= OnValueChange;
 					break;
 				case observerType.CurrentEnemyCount:
 					GameData.s_instance.CurrentEnemyCount.OnValueChangeWithState -= OnValueChange;
