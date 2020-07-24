@@ -67,6 +67,8 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
 
         public void Initialize(Vector2Int worldSize, Vector2 cellSize)
         {
+            Initialized = false;
+
             this.worldSize = worldSize;
             this.cellSize = cellSize;
             this._cellData = new WorldGridCell[worldSize.x * worldSize.y];

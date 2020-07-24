@@ -25,11 +25,13 @@ namespace Andification.Editor.Inspector
         {
             world = target as WorldGrid;
 
-            texDefault = Resources.Load<Texture2D>("MapEditor/Textures/Default.png");
-            texSpawner = Resources.Load<Texture2D>("MapEditor/Textures/Spawner.png");
-            texWalkable = Resources.Load<Texture2D>("MapEditor/Textures/Walkable.png");
-            texNotWalkable = Resources.Load<Texture2D>("MapEditor/Textures/NotWalkable.png");
-            texTarget = Resources.Load<Texture2D>("MapEditor/Textures/Target.png");
+            Debug.Log("Loading map editor textures ...");
+            texDefault = Resources.Load<Texture2D>("MapEditor/Textures/Default");
+            texSpawner = Resources.Load<Texture2D>("MapEditor/Textures/Spawner");
+            texWalkable = Resources.Load<Texture2D>("MapEditor/Textures/Walkable");
+            texNotWalkable = Resources.Load<Texture2D>("MapEditor/Textures/NotWalkable");
+            texTarget = Resources.Load<Texture2D>("MapEditor/Textures/Target");
+            Debug.Log("Map editor textures loaded!");
         }
 
         public override void OnInspectorGUI()
@@ -82,6 +84,8 @@ namespace Andification.Editor.Inspector
             var data = world.GridDataReference.CellData;
             var zoom = SceneView.currentDrawingSceneView.camera.orthographicSize;
 
+            var typeValues = Enum.GetValues(typeof(GridContentType)) as GridContentType[];
+
             Handles.BeginGUI();
             for (int i = 0; i < data.Length; i++)
             {
@@ -92,18 +96,36 @@ namespace Andification.Editor.Inspector
                     new Vector2(world.GridDataReference.CellSize.x, world.GridDataReference.CellSize.y) * 322f / zoom
                 );
 
-                switch (data[i].ContentType)
+                var tex = GetTextureForContentType(data[i].ContentType);
+                
+                if (GUI.Button(cellRect, tex))
                 {
-                    case GridContentType.Nothing:
-                        GUI.DrawTexture(cellRect, texDefault);
-                        break;
-
-
-                    default:
-                        break;
+                    var curTypeIndex = Array.FindIndex(typeValues, type => world.GridDataReference.CellData[i].ContentType == type);
+                    world.GridDataReference.CellData[i].ContentType = typeValues[++curTypeIndex % typeValues.Length];
                 }
             }
             Handles.EndGUI();
+        }
+
+        private Texture2D GetTextureForContentType(GridContentType type)
+        {
+            switch (type)
+            {
+                case GridContentType.Nothing:
+                    return texWalkable;
+
+                case GridContentType.Spawner:
+                    return texSpawner;
+
+                case GridContentType.Baricade:
+                    return texNotWalkable;
+
+                case GridContentType.Target:
+                    return texTarget;
+
+                default:
+                    return null;
+            }
         }
     }
 }
