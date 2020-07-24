@@ -65,12 +65,21 @@ namespace Andification.Editor.Inspector
                 cellSize = world.GridDataReference.CellSize;
             }
 
+            EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Re-Initialize"))
             {
                 world.GridDataReference.Initialize(world.GridDataReference.WorldSize, world.GridDataReference.CellSize);
                 EditorUtility.SetDirty(world.GridDataReference);
                 AssetDatabase.SaveAssets();
             }
+
+            if (GUILayout.Button("Force Lazy-Load Data"))
+            {
+                world.GridDataReference.LazyLoadData();
+                EditorUtility.SetDirty(world.GridDataReference);
+                AssetDatabase.SaveAssets();
+            }
+            EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
         }
 
