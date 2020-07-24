@@ -2,13 +2,14 @@
 using System;
 using Andification.Runtime.Extensions;
 using Andification.Runtime.Data.ScriptableObjects.Map;
+using UnityEditor;
 
 namespace Andification.Runtime.GridSystem
 {
     public class WorldGrid : MonoBehaviour
     {
         [Header("References")]
-        public GridData gridData;
+        [SerializeField] private GridData gridData;
 
         [Space]
         [Header("Debug Stuff")]
@@ -17,6 +18,11 @@ namespace Andification.Runtime.GridSystem
         [SerializeField] private Color gridColor = Color.cyan;
 
         public event EventHandler<WorldGridCell> cellChanged;
+        public GridData GridDataReference
+        {
+            get => gridData;
+            set => LoadGridData(value);
+        }
 
         private void OnDrawGizmos()
         {
@@ -32,6 +38,11 @@ namespace Andification.Runtime.GridSystem
         private void Awake()
         {
             ClampScaling();
+        }
+
+        private void OnDisable()
+        {
+            UnloadGrid();
         }
 
         private void OnGUI()
@@ -103,16 +114,27 @@ namespace Andification.Runtime.GridSystem
         /// <returns>The cell at the given position or null</returns>
         public WorldGridCell GetCellAt(Vector2Int cellPosition)
         {
+            return GetCellAt(cellPosition.x, cellPosition.y);
+        }
+
+        /// <summary>
+        /// Returns the cell at the given cell position or null if the position was out of range
+        /// </summary>
+        /// <param name="x">The x position of the cell - only positive values allowed!</param>
+        /// <param name="y">The y position of the cell - only positive values allowed!</param>
+        /// <returns>The cell at the given position or null</returns>
+        public WorldGridCell GetCellAt(int x, int y)
+        {
             if (!gridData.Initialized)
                 return null;
 
-            if (cellPosition.x < 0 || cellPosition.x >= gridData.WorldSize.x)
+            if (x < 0 || x >= gridData.WorldSize.x)
                 return null;
 
-            if (cellPosition.y < 0 || cellPosition.y >= gridData.WorldSize.y)
+            if (y < 0 || y >= gridData.WorldSize.y)
                 return null;
-            
-            return gridData.CellData2D[cellPosition.x, cellPosition.y];
+
+            return gridData.CellData[y * gridData.WorldSize.x + x];
         }
 
         /// <summary>
@@ -142,8 +164,45 @@ namespace Andification.Runtime.GridSystem
             return a;
         }
 
-        private void OnCellChanged(WorldGridCell cell)
+        /// <summary>
+        /// Load and link grid data
+        /// </summary>
+        /// <param name="data"></param>
+        public void LoadGridData(GridData data)
         {
+            if (gridData != null)
+                UnloadGrid();
+
+            Debug.Log($"Loading grid {gridData.name} ...");
+
+            if (data == null)
+                Debug.LogException(new ArgumentNullException("No Grid Data provided"), this);
+
+            gridData = data;
+            gridData.cellChanged += OnCellChanged;
+
+            Debug.Log($"Loaded grid {gridData.name}");
+        }
+
+        /// <summary>
+        /// Unload and unlink loaded grid if any
+        /// </summary>
+        public void UnloadGrid()
+        {
+            if (gridData != null)
+            {
+                Debug.Log($"Unloading grid {gridData.name} ...");
+
+                gridData.cellChanged -= OnCellChanged;
+                gridData = null;
+
+                Debug.Log($"Grid unloaded");
+            }
+        }
+
+        private void OnCellChanged(object sender, WorldGridCell cell)
+        {
+            Debug.Log($"Cell {cell.CellPosition} changed!");
             cellChanged?.Invoke(cell, cell);
         }
     }

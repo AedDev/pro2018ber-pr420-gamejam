@@ -33,28 +33,28 @@ namespace Andification.Editor.Inspector
             worldSize = EditorGUILayout.Vector2IntField("World Size", worldSize);
             cellSize = EditorGUILayout.Vector2Field("Cell Size", cellSize);
 
-            EditorGUI.BeginDisabledGroup(world.gridData != null);
+            EditorGUI.BeginDisabledGroup(world.GridDataReference != null);
             if (GUILayout.Button("Create"))
             {
                 var gridDataInstance = GridData.CreateInstance(worldSize, cellSize);
                 AssetDatabase.CreateAsset(gridDataInstance, $"Assets/GridData-{Guid.NewGuid()}.asset");
 
-                world.gridData = gridDataInstance;
+                world.LoadGridData(gridDataInstance);
                 EditorUtility.SetDirty(world);
             }
             EditorGUI.EndDisabledGroup();
 
-            EditorGUI.BeginDisabledGroup(world.gridData == null);
+            EditorGUI.BeginDisabledGroup(world.GridDataReference == null);
             if (GUILayout.Button("Load dimensions"))
             {
-                worldSize = world.gridData.WorldSize;
-                cellSize = world.gridData.CellSize;
+                worldSize = world.GridDataReference.WorldSize;
+                cellSize = world.GridDataReference.CellSize;
             }
 
             if (GUILayout.Button("Re-Initialize"))
             {
-                world.gridData.Initialize(world.gridData.WorldSize, world.gridData.CellSize);
-                EditorUtility.SetDirty(world.gridData);
+                world.GridDataReference.Initialize(world.GridDataReference.WorldSize, world.GridDataReference.CellSize);
+                EditorUtility.SetDirty(world.GridDataReference);
                 AssetDatabase.SaveAssets();
             }
             EditorGUI.EndDisabledGroup();

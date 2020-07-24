@@ -1,11 +1,17 @@
 using UnityEngine;
 using Andification.Runtime.Extensions;
 using Andification.Runtime.GridSystem;
+using System;
 
 namespace Andification.Runtime.Data.ScriptableObjects.Map
 {
     public class GridData : ScriptableObject
     {
+        /// <summary>
+        /// The name of the grid
+        /// </summary>
+        public new string name;
+
         /// <summary>
         /// Size of the grid in cells
         /// </summary>
@@ -19,7 +25,12 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
         public Vector2Int WorldSize => worldSize;
         public Vector2 CellSize => cellSize;
 
-        [SerializeField] private WorldGridCell[] _cellData = null;
+        [SerializeField, HideInInspector] private WorldGridCell[] _cellData = null;
+        public WorldGridCell[] CellData
+        {
+            get => _cellData;
+        }
+
         public WorldGridCell[,] CellData2D
         {
             get => _cellData?.ToTwoDimensional(worldSize.x, worldSize.y);
@@ -31,6 +42,8 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
             get => initialized;
             private set => initialized = value;
         }
+
+        public event EventHandler<WorldGridCell> cellChanged;
 
         private void OnValidate()
         {
@@ -58,13 +71,18 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
             this.cellSize = cellSize;
             this._cellData = new WorldGridCell[worldSize.x * worldSize.y];
 
-            for (int _x = 0, _i = 0; _x < worldSize.x; _x++)
-                for (int _y = 0; _y < worldSize.y; _y++, _i++)
-                    this._cellData[_i] = new WorldGridCell(this, _x, _y, /* Handler einbauen -> */ null);
+            for (int _x = 0; _x < worldSize.x; _x++)
+                for (int _y = 0; _y < worldSize.y; _y++)
+                    this._cellData[_y * worldSize.x + _x] = new WorldGridCell(this, _x, _y, OnCellChanged);
 
             Debug.Log("GridData initialized!");
 
-            this.Initialized = true;
+            Initialized = true;
+        }
+
+        private void OnCellChanged(WorldGridCell cell)
+        {
+            cellChanged?.Invoke(cell, cell);
         }
     }
 }
