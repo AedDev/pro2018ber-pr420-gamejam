@@ -12,8 +12,9 @@ namespace Andification.Runtime.GridSystem
         
         [SerializeField] private bool walkable = true;
         [SerializeField] private bool buildable = true;
-        [SerializeField] private GridContentType content = GridContentType.Nothing;
-        
+        [SerializeField] private GridContentType contentType = GridContentType.Nothing;
+        [NonSerialized] private GameObject content;
+
         [NonSerialized] private Action<WorldGridCell> cellChangedHandler;
 
         public GridData RelatedGrid
@@ -58,7 +59,22 @@ namespace Andification.Runtime.GridSystem
             }
         }
 
-        public GridContentType Content
+        public GridContentType ContentType
+        {
+            get => contentType;
+            set
+            {
+                if (value != contentType)
+                {
+                    contentType = value;
+
+                    if (relatedGrid.Initialized)
+                        cellChangedHandler?.Invoke(this);
+                }
+            }
+        }
+
+        public GameObject Content
         {
             get => content;
             set
