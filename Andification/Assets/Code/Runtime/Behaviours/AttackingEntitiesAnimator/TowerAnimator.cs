@@ -1,15 +1,27 @@
-﻿using Andification.Runtime.Behaviours.Entities;
+﻿using System;
 using UnityEngine;
 
-namespace Andification.Runtime.Behaviours
+namespace Andification.Runtime.Behaviours.Entities
 {
-	public class TowerAnimator : MonoBehaviour
+	public class TowerAnimator : EntityAnimator<Tower>
 	{
-		private Tower target;
-
-		public void Initialise(Tower target)
+		[SerializeField] private Transform turnablePart = default;
+		protected override void OnInitialise()
 		{
-			this.target = target;
+			Target.StartedAttack += UpdateTurnablePart;
+		}
+
+		private void OnDestroy()
+		{
+			Target.StartedAttack -= UpdateTurnablePart;
+		}
+
+		private void UpdateTurnablePart(IAttackableEntity targetEntity)
+		{
+			if(targetEntity is BaseEntity entity)
+			{
+				turnablePart.right = (entity.transform.position - turnablePart.position).normalized;
+			}
 		}
 	}
 }

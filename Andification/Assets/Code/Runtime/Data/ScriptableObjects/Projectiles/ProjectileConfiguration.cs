@@ -6,20 +6,19 @@ namespace Andification.Runtime.Data
 {
 	public abstract class ProjectileConfiguration : AndificationScriptableObject
 	{
+		//Base Settings
 		public Sprite ProjectileSprite;
+		public float HitDistance = 0.5f;
+		public float MaxAliveTime = 10;
 
 		//Traveling
 		public bool InstantTravel;
-		public float TravelSpeed;
+		public float TravelSpeed = 4;
 
 		//Turning
 		public bool InstantTurn;
-		public float TurnSpeed;
-
-		//Finalising Projectile
-		public float HitDistance;
-		public float MaxAliveTime;
-
+		public float TurnSpeed = 180;
+		
 		public void ProjectileStart(Projectile projectile)
 		{
 			if (InstantTravel)

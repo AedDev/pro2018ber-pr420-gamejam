@@ -7,14 +7,16 @@ namespace Andification.Runtime.Data
 {
 	public class DamagingProjectile : ProjectileConfiguration
 	{
-		public int Damage;
+		public int Damage = 10;
 
 		//AOE Settings
 		public bool AOEDamage;
 		public bool AOEOnTimeOut;
-		public float AOERange;
+		
+		public float AOERange = 2;
+		
 		public bool AOEHasFalloff;
-		public float ZeroOutAOERange;
+		public float ZeroOutAOERange = 2;
 
 		protected override void OnProjectileStart(Projectile projectile) { }
 
