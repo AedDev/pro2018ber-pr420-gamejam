@@ -26,13 +26,13 @@ namespace Andification.Runtime.View {
 		}
 
 		private void FixedUpdate() {
-			if(_target.CurrentHealth >= _target.MaxHealth) {
+			if(_target.CurrentHealth.value >= _target.MaxHealth) {
 				_healthBar.gameObject.SetActive(false);
 				return;
 			}
 
 			_healthBar.maxValue = _target.MaxHealth;
-			_healthBar.value = _target.CurrentHealth;
+			_healthBar.value = _target.CurrentHealth.value;
 			_healthBar.gameObject.SetActive(true);
 		}
 	}

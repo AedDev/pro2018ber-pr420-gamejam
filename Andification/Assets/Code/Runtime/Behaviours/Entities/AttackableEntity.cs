@@ -1,23 +1,24 @@
 ﻿using Andification.Runtime.Data;
+using AsserTOOLres;
 
 namespace Andification.Runtime.Behaviours.Entities
 {
 	public interface IAttackableEntity
 	{
 		int MaxHealth { get; }
-		int CurrentHealth { get; }
+		Observable<int> CurrentHealth { get; }
 		void Damage(int amount);
 	}
 	public abstract class AttackableEntity<T> : Entity<T>, IAttackableEntity where T : AttackableEntityConfiguration
 	{
 		public int MaxHealth { get; private set; }
-		public int CurrentHealth { get; private set; }
+		public Observable<int> CurrentHealth { get; private set; }
 		public bool Invincible { get; private set; }
 		public bool Alive { get; private set; }
 
 		protected override void OnInitialise()
 		{
-			MaxHealth = CurrentHealth = Configuration.MaxHealth;
+			MaxHealth = CurrentHealth.value = Configuration.MaxHealth;
 			Invincible = Configuration.Invincible;
 			Alive = true;
 		}
@@ -29,8 +30,8 @@ namespace Andification.Runtime.Behaviours.Entities
 				return;
 			}
 
-			CurrentHealth -= amount;
-			if (CurrentHealth <= 0)
+			CurrentHealth.value -= amount;
+			if (CurrentHealth.value <= 0)
 			{
 				Death();
 			}
