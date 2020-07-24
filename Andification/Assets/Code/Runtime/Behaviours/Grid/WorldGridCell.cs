@@ -4,7 +4,7 @@ using System;
 
 namespace Andification.Runtime.GridSystem
 {
-    [System.Serializable]
+    [Serializable]
     public class WorldGridCell
     {
         public readonly Vector2Int cellPosition;
