@@ -1,27 +1,89 @@
 ﻿using UnityEngine;
-using Andification.Runtime.Behaviours.Entities;
 using System;
+using Andification.Runtime.Data.ScriptableObjects.Map;
 
 namespace Andification.Runtime.GridSystem
 {
     [Serializable]
     public class WorldGridCell
     {
-        public readonly Vector2Int cellPosition;
-        public bool walkable = true;
-        public bool buildable = true;
-        public GridContentType content = GridContentType.Nothing;
-        public BaseEntity containedEntity;
+        [SerializeField] private Vector2Int cellPosition;
+        [NonSerialized] private GridData relatedGrid;
+        
+        [SerializeField] private bool walkable = true;
+        [SerializeField] private bool buildable = true;
+        [SerializeField] private GridContentType content = GridContentType.Nothing;
+        
+        [NonSerialized] private Action<WorldGridCell> cellChangedHandler;
 
-        public WorldGridCell(Vector2Int cellPosition)
+        public GridData RelatedGrid
+        {
+            get => relatedGrid;
+            private set => relatedGrid = value;
+        }
+
+        public Vector2Int CellPosition
+        {
+            get => cellPosition;
+            private set => cellPosition = value;
+        }
+
+        public bool Walkable
+        {
+            get => walkable;
+            set 
+            {
+                if (value != walkable)
+                {
+                    walkable = value;
+
+                    if (relatedGrid.Initialized)
+                        cellChangedHandler?.Invoke(this);
+                }
+            }
+        }
+
+        public bool Buildable
+        {
+            get => buildable;
+            set
+            {
+                if (value != buildable)
+                {
+                    buildable = value;
+
+                    if (relatedGrid.Initialized)
+                        cellChangedHandler?.Invoke(this);
+                }
+            }
+        }
+
+        public GridContentType Content
+        {
+            get => content;
+            set
+            {
+                if (value != content)
+                {
+                    content = value;
+
+                    if (relatedGrid.Initialized)
+                        cellChangedHandler?.Invoke(this);
+                }
+            }
+        }
+
+        public WorldGridCell(GridData relatedGrid, Vector2Int cellPosition, Action<WorldGridCell> cellChanged = default)
         {
             if (cellPosition.x < 0 || cellPosition.y < 0)
                 throw new ArgumentOutOfRangeException("x and y cell coordinate need to be a value equal to or greater than 0");
 
-            this.cellPosition = cellPosition;
+            RelatedGrid = relatedGrid;
+            CellPosition = cellPosition;
+            cellChangedHandler = cellChanged;
         }
 
-        public WorldGridCell(int x, int y) : this(new Vector2Int(x, y))
+        public WorldGridCell(GridData relatedGrid, int x, int y, Action<WorldGridCell> cellChanged = default) : this(relatedGrid, new Vector2Int(x, y), cellChanged)
         {
             
         }
