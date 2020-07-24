@@ -20,7 +20,7 @@ namespace Andification.Runtime.GridSystem
         public GridData RelatedGrid
         {
             get => relatedGrid;
-            private set => relatedGrid = value;
+            set => relatedGrid = value;
         }
 
         public Vector2Int CellPosition
@@ -94,9 +94,9 @@ namespace Andification.Runtime.GridSystem
             if (cellPosition.x < 0 || cellPosition.y < 0)
                 throw new ArgumentOutOfRangeException("x and y cell coordinate need to be a value equal to or greater than 0");
 
-            RelatedGrid = relatedGrid;
-            CellPosition = cellPosition;
-            cellChangedHandler = cellChanged;
+            this.relatedGrid = relatedGrid;
+            this.cellPosition = cellPosition;
+            this.cellChangedHandler = cellChanged;
         }
 
         public WorldGridCell(GridData relatedGrid, int x, int y, Action<WorldGridCell> cellChanged = default) : this(relatedGrid, new Vector2Int(x, y), cellChanged)

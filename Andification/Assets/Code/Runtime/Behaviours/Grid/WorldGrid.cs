@@ -12,9 +12,9 @@ namespace Andification.Runtime.GridSystem
 
         [Space]
         [Header("Debug Stuff")]
-        [SerializeField] private bool debugMode = true;
-        [SerializeField] private bool drawGrid = true;
-        [SerializeField] private Color gridColor = Color.cyan;
+        public bool editMode = true;
+        public bool drawGrid = true;
+        private Color gridColor = Color.cyan;
 
         public event EventHandler<WorldGridCell> cellChanged;
         public GridData GridDataReference
@@ -46,7 +46,7 @@ namespace Andification.Runtime.GridSystem
 
         private void OnGUI()
         {
-            if (debugMode)
+            if (editMode)
             {
                 var mPos = Input.mousePosition;
                 var cam = Camera.main;
@@ -58,16 +58,6 @@ namespace Andification.Runtime.GridSystem
                 GUI.Label(new Rect(20, 20, 300, 20), $"World Positon: {camWPos}");
                 GUI.Label(new Rect(20, 40, 300, 20), $"World2Cell: {cPos}");
                 GUI.Label(new Rect(20, 60, 300, 20), $"Cell2World: {(cell != null ? wPos.ToString() : "No valid cell!")}");
-
-                if (cell != null)
-                {
-                    GUI.Label(
-                        new Rect(
-                            cam.WorldToScreenPointInvertedY(wPos - (gridData.CellSize / 2) + new Vector2(0, gridData.CellSize.y)),
-                            new Vector2(100, 100)
-                        ), cell.CellPosition.ToString()
-                    );
-                }
             }
         }
 

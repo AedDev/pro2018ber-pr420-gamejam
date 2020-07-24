@@ -266,9 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridData: {fileID: 11400000, guid: d7f74f9fa5ec0864ea956f6242468aa3, type: 2}
-  debugMode: 1
+  editMode: 1
   drawGrid: 1
-  gridColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &904138109
 Transform:
   m_ObjectHideFlags: 0

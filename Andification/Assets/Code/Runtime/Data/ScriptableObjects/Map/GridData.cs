@@ -51,6 +51,11 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
             cellSize.Clamp(Vector2.one, Vector2.one * float.MaxValue);
         }
 
+        private void OnEnable()
+        {
+            LazyLoadData();
+        }
+
         /// <summary>
         /// Creates a new instance of GridData with basic initialization
         /// </summary>
@@ -92,6 +97,21 @@ namespace Andification.Runtime.Data.ScriptableObjects.Map
             Debug.Log("GridData initialized!");
 
             Initialized = true;
+        }
+
+        public void LazyLoadData()
+        {
+            Debug.Log($"Lazy loading grid {name}");
+
+            Initialized = false;
+
+            for (int _x = 0; _x < worldSize.x; _x++)
+                for (int _y = 0; _y < worldSize.y; _y++)
+                    this._cellData[_y * worldSize.x + _x].RelatedGrid = this;
+
+            Initialized = true;
+
+            Debug.Log($"Done lazy loading grid {name}");
         }
 
         private void OnCellChanged(WorldGridCell cell)
